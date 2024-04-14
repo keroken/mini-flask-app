@@ -9,17 +9,18 @@ auth_views = Blueprint("auth", __name__)
 def register():
     # Define application logic for homepage
     if request.method == "POST":
-        # Enter logic for processing registration
-        return "<h1>After Registration</h1>"
+        uploaded_file = request.files['picture']
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-    return "<h1>This is the Register Page</h1>"
+        # Save the uploaded file to a directory on your server
+        # Preferably outside the application root or as you desire
+        uploaded_file.save(f"/tmp/{uploaded_file.filename}")
 
+        # Implement database logic to register user
 
-@auth_views.route("/login", strict_slashes=False, methods=["GET", "POST"])
-def login():
-    # Define application logic for profile page
-    if request.method == "POST":
-        # Enter logic for processing login
-        return "<h1>After Login</h1>"
+        return render_template("login.html")
 
-    return "<h1>Here goes the Login Page</h1>"
+    # Render template for GET requests
+    return render_template("register.html")
